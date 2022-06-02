@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
     
 use App\Models\Product;
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 03f629853adb1d3e34aa13b4c034f39656bb6ccc
 use Illuminate\Http\Request;
     
 class ProductController extends Controller
