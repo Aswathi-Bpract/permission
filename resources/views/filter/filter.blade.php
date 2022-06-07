@@ -1,38 +1,13 @@
-@extends('layouts.app')
-
-
-@section('content')
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>student</h2>
-            </div>
-            <div class="pull-right">
-                @can('student-create')
-                <a class="btn btn-success" href="{{ route('students.create') }}"> Create New student</a>
-                @endcan
-            </div>
-        </div>
-    </div>
-
+<br>
+</br>
 
 <div class="col-xs-12 col-sm-12 col-md-12">
 <div class="form-group">
 <strong>Student Class:</strong>
+     <form action="{{ route('filter.filter',$class) }}" method="get">
 
-
-
-
-
-     <form action="{{ route('students.index') }}" method="get">
-@csrf
-
-    
-       <select name="class" id="class" style="width:100px" >
-
-    <option selected="selected"> {{$class}}</option>
-    
-    
+        <!-- <label for="cars">Choose a class:</label>  --> -->
+        <select id="cars" value="" class="form-control" style="width:100px" name="class">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -46,11 +21,11 @@
           
         </select>
 
- 
+
        <button type="submit" class="btn btn-danger">Submit</button>
          <br>
        </br>
-      </form> 
+     
 
 
 </div>
@@ -61,7 +36,6 @@
 <p>{{ $message }}</p>
 </div>
 @endif
-
 <table class="table table-bordered">
         <tr>
         <th>Name</th>
@@ -70,7 +44,7 @@
         <th>Ncc candidate</th>
         <th>Classes</th>
         <th>Amount</th>
-        <th width="280px">Action</th>
+        <!-- <th width="280px">Action</th> -->
         </tr>
 
 
@@ -84,24 +58,20 @@
         <td>{{ $student->class }}</td>
         <td>{{ $student->tot_amount }}</td>
         <td>
-<form action="{{ route('students.destroy',$student->id) }}" method="Post">
-@can('student-edit')
+<!-- <form action="{{ route('students.destroy',$student->id) }}" method="Post"> -->
+<!-- @can('student-edit')
 <a class="btn btn-primary" href="{{ route('students.edit',$student->id) }}">Edit</a>
-  @endcan
+  @endcan -->
 @csrf
 @method('DELETE')
-@can('student-delete')
+<!-- @can('student-delete')
 <button type="submit" class="btn btn-danger">Delete</button>
-  @endcan
+  @endcan -->
 </form>
 </td>
 </tr>
 @endforeach
+
 </table>
 
 
-
- {!! $students->links() !!}
-
-
-@endsection

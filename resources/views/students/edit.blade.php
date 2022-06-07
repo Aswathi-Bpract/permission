@@ -73,7 +73,11 @@
 <div class="col-xs-12 col-sm-12 col-md-12">
 <div class="form-group">
 <strong>class:</strong>
-<select id="cars" class="form-control"  name="class">
+
+
+ <select name="class" id="class" style="width:100px" >
+  
+    <option selected="selected"> {{ old('class',$student->class) }}</option>
   <option value="1">1</option>
   <option value="2">2</option>
   <option value="3">3</option>

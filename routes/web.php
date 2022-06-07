@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StudentCRUDController;
 use App\Http\Controllers\PaymentCRUDController;
+use App\Http\Controllers\FilterCRUDController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('products', ProductController::class);
     Route::resource('students',StudentCRUDController::class);
     Route::resource('payments',PaymentCRUDController::class);
+    // Route::resource('filters',FilterCRUDController::class);
+
 });
