@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use App\Models\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 class StudentCRUDController extends Controller
 {
@@ -23,26 +24,35 @@ function __construct(){
     //      $this->middleware('permission:student-delete', ['only' => ['destroy']]);
     // }
 
-public function index()
+public function index(Request $request)
 {
-    //return ;
+    //if(isset($request->class)) return $request->class;
+// return student::where(function($query) use($request){
+//     $query->where('class',$request->class);
+// })->get();
+
 $students = Student::join('student_payments','student_payments.student_id','students.id')
+->where(function($query) use($request){
+
+            if(isset($request->class))
+                $query->where('students.class',$request->class);
+        })
 ->select('students.*',DB::raw('SUM(student_payments.amount) as tot_amount'))
 ->groupBy('students.id')
 ->orderBy('students.id','asc')
-->paginate(3); 
-// ->paginate(5);
+ ->paginate(40);
 
-// ->get();
+ $class=$request->class;
 
-//return $students;
-return view('students.index', compact('students'));
+return view('students.index', compact('students','class'));
   
 }
 
 public function create()
 {
 return view('students.create');
+
+
 }
 public function store(Request $request)
 {
@@ -58,6 +68,15 @@ public function store(Request $request)
 
     ]);
 
+
+
+      $student= student::create($request->all());
+      Mail::send('email.StudentCreated',$student->toArray(),
+        function($message)
+
+       {$message->to('aswathi@bpract.com' ,'Code Online') 
+       ->subject('students created');
+       });
 
     Student::create($request->all());
 
@@ -97,6 +116,9 @@ $student->dob = $request->dob;
 $student->is_ncc = $request->is_ncc;
 $student->class = $request->class;
 $student->save();
+
+
+
 return redirect()->route('students.index')->with('success','students Has Been updated successfully');
 }
 
@@ -118,9 +140,9 @@ public function indexNew(Student $student)
 return view('payments.index1',compact('payments'));
 
       
-    
 
 }
+
 
 }
 
